@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>博客详情页</title>
+    <link rel="stylesheet" href="/css/util.css">
+    <link rel="stylesheet" href="/css/main.css">
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+    
+    
+</head>
+<body>
+<header style="height: 50px;">
+    <div class="center">
+        <a class="head_logo" href="/">
+            <img src="images/logo.png" alt="" />
+        </a>
+    </div>
+</header>
+<div class="center">
+    <div class="detail_main" style="width:900px">
+        <h2 class="detail_title">{{article[0].title}}</h2>
+        <i class="detail_tag">日期：{{article[0].addTime | date('Y-m-d', -8*60)}}</i> <i style="margin-left: 10px">阅读量：{{article[0].view}}</i> <i style="margin-left: 10px" class="countAll"></i>
+        <input type="hidden" id="text-input" value="{{article[0].content}}">
+        <div class="detail_content" id="preview">{{article[0].content}}</div>
+    </div>
+</div>
+<div class="detail_discuss">
+    <div class="detail_main" style="width:900px">
+        <div class="discuss" style="width: 630px">
+            <div class="user_tab">
+                <span class="discuss_title">评论</span>
+                <span class="discuss_count" style="float: right;width: auto;margin-right: 18px;">一共有<i style="color: red;font-weight: bold;margin: 0 3px;"></i>条评论</span>
+            </div>
+            <div class="discuss_main" style="width: 100%">
+                <ul class="discuss_list">
+                   
+                </ul>
+                <div class="discuss_content" style="margin-top:40px">
+                    <!-- 如果用户登录了 -->
+                    {% if userInfo._id %}
+                    <textarea class="discuss_input" name="" id="" cols="30" rows="10" placeholder="请在这写下评论～"></textarea>
+                    <input class="discuss_Id" type="hidden" value="{{article[0].id}}">
+                    <button class="discuss_submit" style="width: 92%">提 交</button>
+                    {% else %}
+                    <p class="discuss_default">您还没有登录，请先登录～</p>
+                    {% endif %}
+                </div>
+                
+            </div>
+            <div class="discuss_page">
+                <ul class="pager">
+                    <li class="previous"><a class="nopre" style="margin-left: 15px" href="javascript:;"><span aria-hidden="true">&larr;</span>上一页</a></li>
+                    <li></li>
+                    <li class="next"><a id="nonext" style="margin-right: 34px" href="javascript:;">下一页<span aria-hidden="true">&rarr;</span></a></li>
+                </ul>
+            </div>
+            </div>
+        <aside class="user_list">
+                {% if userInfo._id %}
+                <div class="user_logined">
+                    {% if userInfo.isAdmin %}
+                    <p class="user_welcome">欢迎，<i>{{userInfo.username}}</i><a href="/admin">进入后台</a></p>
+                    {% else %}
+                    <p class="user_welcome">欢迎，<i>{{userInfo.username}}</i></p>
+                    {% endif %}
+                    <span id="loginOut" class="user_loginOut">退出</span>
+                </div>
+                {% else %}
+                <div class="user_form">
+                        <div class="user_tab j_userTab">
+                            <span class="user_cur">登录</span>
+                            <span>注册</span>
+                        </div>
+                        <div id="login" class="user_login">
+                            <div class="user_input">
+                                <i class="iconfont">&#xe60d;</i>
+                                <input type="text" placeholder="请输入用户名" name="username">
+                            </div>
+                            <div class="user_input margin_bottom0">
+                                <i class="iconfont">&#xe6c6;</i>
+                                <input type="password" placeholder="请输入密码" name="password">
+                            </div>
+                            <p class="user_err"><span>用户名不能为空</span></p>
+                            <p class="user_login_btn">登 录</p>
+                        </div>
+                        <div id="register" class="user_register">
+                            <div class="user_input">
+                                <i class="iconfont">&#xe60d;</i>
+                                <input type="text" placeholder="请输入用户名" name="username">
+                            </div>
+                            <div class="user_input">
+                                <i class="iconfont">&#xe6c6;</i>
+                                <input type="password" placeholder="请输入密码" name="password">
+                            </div>
+                            <div class="user_input margin_bottom0">
+                                <i class="iconfont">&#xe6c6;</i>
+                                <input type="password" placeholder="请再次输入密码" name="repassword">
+                            </div>
+                            <p class="user_err"><span>用户名不能为空</span></p>
+                            <p class="user_register_btn">注 册</p>
+                        </div>
+                    </div>
+                {% endif %}
+            </aside>
+    </div>
+</div>
+<script src="/js/jquery-1.8.3.min.js"></script>
+<!-- <script src="/js/markdown.js"></script> -->
+<script src="/js/main.js"></script>
+<script src="/js/comment.js"></script>
+</body>
+</html>

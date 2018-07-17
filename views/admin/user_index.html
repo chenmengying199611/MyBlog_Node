@@ -1,0 +1,39 @@
+<!-- 继承当前目录下的layout.html -->
+{% extends 'layout.html' %}
+<!-- 重写名为main的block区块 -->
+{% block main %}
+    <ol class="breadcrumb">
+        <li><a href="#">后台管理</a></li>
+        <li class="active">用户列表</li>
+    </ol>
+
+    <h3>用户列表</h3>
+
+    <table class="table table-hover table-striped">
+        <tr>
+            <td>ID</td>
+            <td>用户名</td>
+            <td>密码</td>
+            <td>是否是管理员</td>
+        </tr>
+
+        <!-- 遍历users数组对象中的user 每循环一次输出一个tr 以及4个td-->
+        {% for user in users %}
+            <tr>
+                <td>{{user.user_id}}</td>
+                <td>{{user.username}}</td>
+                <td>{{user.password}}</td>
+                <td>
+                    {%if user.isAdmin%}
+                    是
+                    {% endif %}
+                </td>
+            </tr>
+
+
+        {% endfor %}
+    </table>
+
+    {% include 'page.html' %}
+
+{% endblock %}

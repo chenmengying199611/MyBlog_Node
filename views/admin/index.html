@@ -1,0 +1,9 @@
+<!-- 继承当前目录下的layout.html -->
+{% extends 'layout.html' %}
+<!-- 重写名为main的block区块 -->
+{% block main %}
+<div class="jumbotron">
+    <h1>Hello, {{userInfo.username}}</h1>
+    <p>欢迎来到博客后台首页～</p>
+</div>
+{% endblock %}

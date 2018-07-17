@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="/css/util.css">
+    <link rel="stylesheet" href="/css/main.css">
+    <title>博客首页</title>
+</head>
+<body>
+<header>
+    <div class="center">
+        <a class="head_logo" href="/">
+            <img src="images/logo.png" alt="" />
+        </a>
+        <nav class="head_nav">
+            <!-- {% if categoryType == '' %}-->
+            <a class="head_navCur" href="/">首页</a>
+            <!-- {% else %}
+            <a href="/">首页</a>
+            {% endif %} --> 
+            <!-- 将数据库分类信息 渲染到dom上-->
+            {% for category in categories %}
+                
+                <a class="head_navCur" href="/?type={{category.name}}">{{category.name}}</a>
+                
+            {% endfor %}
+        </nav>
+    </div>
+</header>
+<div class="center banner">
+    <img src="images/banner.jpg" alt="">
+    <h2>Hello World !</h2>
+</div>
+<div class="center">
+    <div class="article_list">
+        {% for content in contents %}
+        <!-- 阅读全文 -->
+        <a class="article_item" href="/views?page={{content.id}}">
+            <h3>{{content.title}}</h3>
+            <div class="article_main">
+                <p class="article_content ellipsis_4">{{content.description}}</p>
+            </div>
+            <div class="article_tag">
+                <span>{{content.category}}</span>
+                <i style="font-size: 12px;margin-right: 20px">阅读量 : {{content.view}}</i>
+                <i class="comment_count" style="font-size: 12px;margin-right: 20px">评论量：{{content.count}}</i>
+                <i style="margin-right: 20px;font-size: 12px">{{content.addTime | date('Y-m-d', -8*60)}}</i>
+            </div>
+        </a>
+        {% endfor %}
+
+        {% if pages>1 %}
+        <div class="pagination">
+            {% if page<=1 %}
+            <span class="pagination_left">没有了</span>
+            {% else %}
+            <a class="pagination_left" href="/?type={{content.category}}&page={{page-1}}">上一页</a>
+            {% endif %}
+            <span>共 <i>{{pages}}</i> 页，当前是第 <i>{{page}}</i> 页</span>
+            {% if page>=pages %}
+            <span class="pagination_right">没有了</span>
+            {% else %}
+            <a class="pagination_right" href="/?type={{content.category}}&page={{page+1}}">下一页</a>
+            {% endif %}
+        </div>
+        {% elseif count==0 %}
+        <p class="noPageList">没有相关内容</p>
+        {% endif %}
+    </div>
+    <aside class="user_list">
+        <!-- 如果后端传递过来的userInfo 中存在_id属性 表示用户是登录的状态-->
+        {% if userInfo._id %}
+        <!-- 如果该用户登录成功了，那我们在浏览器中给他存一个cookie 判断cookie从而判断是哪个用户 以及是否登录-->
+        <div class="user_logined">
+            {% if userInfo.isAdmin %}
+            <p class="user_welcome">你好，管理员<i>{{userInfo.username}}</i><a href="/admin">进入后台</a></p>
+            {% else %}
+            <p class="user_welcome">你好，<i>{{userInfo.username}}</i>，欢迎光临我的博客</i></p>
+            {% endif %}
+            <span id="loginOut" class="user_loginOut">退出</span>
+        </div>
+        {% else %}
+        <div class="user_form">
+            <div class="user_tab j_userTab">
+                <span class="user_cur">登录</span>
+                <span>注册</span>
+            </div>
+            <div id="login" class="user_login">
+                <div class="user_input">
+                    <i class="iconfont">&#xe60d;</i>
+                    <input type="text" placeholder="请输入用户名" name="username">
+                </div>
+                <div class="user_input margin_bottom0">
+                    <i class="iconfont">&#xe6c6;</i>
+                    <input type="password" placeholder="请输入密码" name="password">
+                </div>
+                <p class="user_err"><span>用户名不能为空</span></p>
+                <p class="user_login_btn">登 录</p>
+            </div>
+            <div id="register" class="user_register">
+                <div class="user_input">
+                    <i class="iconfont">&#xe60d;</i>
+                    <input type="text" placeholder="请输入用户名" name="username">
+                </div>
+                <div class="user_input">
+                    <i class="iconfont">&#xe6c6;</i>
+                    <input type="password" placeholder="请输入密码" name="password">
+                </div>
+                <div class="user_input margin_bottom0">
+                    <i class="iconfont">&#xe6c6;</i>
+                    <input type="password" placeholder="请再次输入密码" name="repassword">
+                </div>
+                <p class="user_err"><span>用户名不能为空</span></p>
+                <p class="user_register_btn">注 册</p>
+            </div>
+        </div>
+        {% endif %}
+        <div class="friendly_link">
+            <div class="user_tab">
+                <span class="discuss_title">友情链接</span>
+            </div>
+            <div class="link_item">
+                <a href="http:www.zhihu.com">知乎</a>
+            </div>
+        </div>
+        <p class="user_no">您是本网站的第<i>12</i>位访客祝您生活工作愉快</p>
+        <p class="copy_right">京ICP备17059284号-1</p>
+    </aside>
+</div>
+<script src="/js/jquery-1.8.3.min.js"></script>
+<script src="/js/main.js"></script>
+<script src="/js/comment.js"></script>
+</body>
+</html>
